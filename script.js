@@ -1,28 +1,22 @@
 let dv = document.getElementById("dv");
 let btn = document.getElementById("btn");
+let howToBtn = document.getElementById("howToBtn");
 
-
-
-
-
-
-
-
-function convert(){
+function convert() {
     let domDescompuesto = [];
-    let dominio = document.getElementById("dominio").value;
-    for(caracter of dominio){
+    let dominioBruto = document.getElementById("dominio").value;
+    let dominio = dominioBruto.toUpperCase();
+    for (caracter of dominio) {
         let equi
-        switch(caracter){
+        switch (caracter) {
             case "A":
                 domDescompuesto.push(1);
                 domDescompuesto.push(4);
                 break;
-                case "B":
-                    domDescompuesto.push(0);
-                    domDescompuesto.push(1);
-                    break;
-                    
+            case "B":
+                domDescompuesto.push(0);
+                domDescompuesto.push(1);
+                break;
             case "C":
                 domDescompuesto.push(0);
                 domDescompuesto.push(0);
@@ -119,12 +113,10 @@ function convert(){
                 domDescompuesto.push(1);
                 domDescompuesto.push(7);
                 break;
-    default:
-            domDescompuesto.push(caracter)
-            break
+            default:
+                domDescompuesto.push(caracter)
+                break
         }
-        
-      
     }
     let array1 = [];
     let array2 = [];
@@ -132,12 +124,12 @@ function convert(){
     let suma2 = 0;
     let largo = domDescompuesto.length;
 
-    for(i=largo;i>=0;i--){
+    for (i = largo; i >= 0; i--) {
         i--;
         array1.push(domDescompuesto[i]);
     }
 
-    for(i=largo-1;i>0;i--){
+    for (i = largo - 1; i > 0; i--) {
         i--;
         array2.push(domDescompuesto[i]);
     }
@@ -146,39 +138,49 @@ function convert(){
     array1.forEach(nroString => {
         let nro;
         nro = parseInt(nroString)
-         suma1 += nro
+        suma1 += nro
     });
-    
+
+    array2.forEach(nroString => {
+        let nro;
+        nro = parseInt(nroString)
+        suma2 += nro
+    })
 
 
-array2.forEach(nroString => {
-    let nro;
-    nro = parseInt(nroString)
-     suma2 += nro
-})
+    while (suma1 >= 10) {
+        suma1 = (suma1 - 10) + 1
+    }
+    while (suma2 >= 10) {
+        suma2 = (suma2 - 10) + 1
+    }
 
 
-while(suma1>=10){
-    suma1 = (suma1-10)+1
+    if (isNaN(suma1) || isNaN(suma2)) {
+        dv.classList.remove("ok");
+        dv.classList.add("error");
+        dv.innerHTML = "Ingrese un dominio válido"
+
+    } else {
+        dv.classList.remove("error");
+        dv.classList.add("ok")
+        dv.innerHTML = `${dominio} es ${suma1}${suma2}`
+
+        }
+
+    domDescompuesto = [];
+    array1 = [];
+    array2 = [];
 }
-while(suma2>=10){
-    suma2 = (suma2-10)+1
-}
 
-
-if(isNaN(suma1) || isNaN(suma2)){
-    dv.innerHTML = "Ingrese un dominio válido"
-} else {
-dv.innerHTML = `${suma1}${suma2}`}
-
-domDescompuesto = [];
-array1 = [];
-array2 = [];
-}
-
-btn.addEventListener("click",()=>{
-
+btn.addEventListener("click",(e)=>{
     convert();
+    e.preventDefault();
+});
+
+howToBtn.addEventListener("click",(e)=>{
+    document.querySelector(".cuerpomain").classList.toggle("hide");
+    document.querySelector(".howTo").classList.toggle("hide");
+e.preventDefault();
 
 })
-
